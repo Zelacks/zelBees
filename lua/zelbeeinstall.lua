@@ -119,7 +119,7 @@ if request then
 		
 		verFile = fs.open("./zelBeeVersion", "w")
 		for _, line in ipairs(programs) do
-			verFile.writeLine()
+			verFile.writeLine(line)
 		end
 		verFile.close()
 	else
