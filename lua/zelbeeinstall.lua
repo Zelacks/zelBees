@@ -62,11 +62,8 @@ function split(pString, pPattern)
 end
 
 local verFile = fs.open("./zelBeeVersion", "r")
-local currentVersions = {}
-currentVersions.name = {}
-currentVersions.patch = {}
-currentVersions.major = {}
-currentVersions.minor = {}
+local currentVersions = {{name = "", patch = 0, major = 0, minor = 0}}
+
 local currentVersionsSize = 0
 if verFile ~= nil then
 	local i = 1
@@ -74,10 +71,10 @@ if verFile ~= nil then
 	while curLine ~= nil do
 		local tokens = {}
 		tokens = split(curLine, " ")
-		currentVersions.name[i] = tokens[1]
-		currentVersions.patch[i] = tonumber(tokens[2])
-		currentVersions.major[i] = tonumber(tokens[3])
-		currentVersions.minor[i] = tonumber(tokens[4])
+		currentVersions[i].name = tokens[1]
+		currentVersions[i].patch = tonumber(tokens[2])
+		currentVersions[i].major = tonumber(tokens[3])
+		currentVersions[i].minor = tonumber(tokens[4])
 		i = i + 1
 		curLine = verFile.readLine()
 	end
@@ -103,7 +100,6 @@ if request then
 			write(tablevals[1] .. ".......... ")
 			
 			for _, installedProg in ipairs(currentVersions) do
-				print(currentVersions.name)
 				if tablevals[1] == installedProg.name then
 					if compareVersion(tablevals[2], tablevals[3], tablevals[4], installedProg.patch, installedProg.major, installedProg.minor) == true then
 						installProgram(tablevals[1], tablevals[5])
