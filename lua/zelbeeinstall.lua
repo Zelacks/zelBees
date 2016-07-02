@@ -79,7 +79,7 @@ if verFile ~= nil then
 		currentVersions.major[i] = tonumber(tokens[3])
 		currentVersions.minor[i] = tonumber(tokens[4])
 		i = i + 1
-		curLine = request.readLine()
+		curLine = verFile.readLine()
 	end
 	size = i-1
 	verFile.close()
