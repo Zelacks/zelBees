@@ -61,8 +61,7 @@ end
 local verFile = fs.open("./zelBeeVersion", "r")
 local currentVersions = {}
 local currentVersionsSize = 0
-if verFile == nil then
-else
+if verFile ~= nil then
 	local i = 1
 	local curLine = request.readLine()
 	while curLine ~= nil do
@@ -76,9 +75,10 @@ else
 		curLine = request.readLine()
 	end
 	size = i-1
+	verFile.close()
 end
 
-verFile.close()
+
 
 programs = {}
 
