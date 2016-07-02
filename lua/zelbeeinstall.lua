@@ -63,10 +63,10 @@ end
 
 local verFile = fs.open("./zelBeeVersion", "r")
 local currentVersions = {}
-currentVersions.name = ""
-currentVersions.patch = 0
-currentVersions.major = 0
-currentVersions.minor = 0
+currentVersions.name = {}
+currentVersions.patch = {}
+currentVersions.major = {}
+currentVersions.minor = {}
 local currentVersionsSize = 0
 if verFile ~= nil then
 	local i = 1
