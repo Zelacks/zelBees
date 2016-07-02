@@ -63,6 +63,10 @@ end
 
 local verFile = fs.open("./zelBeeVersion", "r")
 local currentVersions = {}
+currentVersions.name = ""
+currentVersions.patch = 0
+currentVersions.major = 0
+currentVersions.minor = 0
 local currentVersionsSize = 0
 if verFile ~= nil then
 	local i = 1
@@ -70,10 +74,10 @@ if verFile ~= nil then
 	while curLine ~= nil do
 		local tokens = {}
 		tokens = split(curLine, " ")
-		currentVersions[i].name = tokens[1]
-		currentVersions[i].patch = tokens[2]
-		currentVersions[i].major = tokens[3]
-		currentVersions[i].minor = tokens[4]
+		currentVersions.name[i] = tokens[1]
+		currentVersions.patch[i] = #tokens[2]
+		currentVersions.major[i] = #tokens[3]
+		currentVersions.minor[i] = #tokens[4]
 		i = i + 1
 		curLine = request.readLine()
 	end
