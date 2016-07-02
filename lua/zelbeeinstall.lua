@@ -112,7 +112,8 @@ if request then
 			if success ~= 1 then
 				installProgram(tablevals[1], tablevals[5])
 			end
-			table.insert(programs, curLine)
+			table.insert(programs, tablevals[1] .. " " .. tablevals[2] .. " " .. tablevals[3] ..  " " .. tablevals[4])
+			write(programs[1])
 			curLine = request.readLine()
 		end
 		
