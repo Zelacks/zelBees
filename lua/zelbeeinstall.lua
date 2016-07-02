@@ -110,6 +110,7 @@ if request then
 			
 			--Program not installed, install it
 			if success ~= 1 then
+				write("new installation")
 				installProgram(tablevals[1], tablevals[5])
 			end
 			table.insert(programs, tablevals[1] .. " " .. tablevals[2] .. " " .. tablevals[3] ..  " " .. tablevals[4])
