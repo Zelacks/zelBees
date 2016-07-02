@@ -72,6 +72,7 @@ if verFile ~= nil then
 		local tokens = {}
 		tokens = split(curLine, " ")
 		currentVersions[i] = {tokens[1], tonumber(tokens[2]), tonumber(tokens[3]), tonumber(tokens[4])}
+		print(currentVersions[i])
 		i = i + 1
 		curLine = verFile.readLine()
 	end
