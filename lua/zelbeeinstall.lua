@@ -97,6 +97,7 @@ if request then
 			write(tablevals[1] .. ".......... ")
 			
 			for _, installedProg in ipairs(currentVersions) do
+				print("hello")
 				if tablevals[1] == installedProg.name then
 					if compareVersion(tablevals[2], tablevals[3], tablevals[4], installedProg.patch, installedProg.major, installedProg.minor) == true then
 						installProgram(tablevals[1], tablevals[5])
