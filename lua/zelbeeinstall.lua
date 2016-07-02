@@ -82,7 +82,7 @@ end
 
 programs = {}
 
-local request = http.get("https://raw.githubusercontent.com/Zelacks/zelBees/master/lua/zelbee.lua")
+local request = http.get("https://raw.githubusercontent.com/Zelacks/zelBees/master/lua/version.lua")
 if request == 200 then --valid response
 	local curLine = request.readLine()
 	while curLine ~= nil do	
@@ -116,4 +116,7 @@ if request == 200 then --valid response
 		verFile.writeLine()
 	end
 	verFile.close()
+else
+	print("couldnt download version file")
+
 end
