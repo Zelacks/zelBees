@@ -11,10 +11,11 @@ end
 function installProgram(name, downloadurl)
 	local saveFile = fs.open("./" .. name, "w")
 	local request = http.get(downloadurl)
-	if request = 200 then
-		local curLine = ""
-		while curLine = requst.readLine() ~= nil
+	if request == 200 then
+		local curLine = request.readLine()
+		while curLine ~= nil do
 			saveFile.writeLine(curLine)
+			curLine = request.readLine()
 		end
 		saveFile.close()
 		write("installed!")
@@ -63,8 +64,8 @@ local currentVersionsSize = 0
 if verFile == nil then
 else
 	local i = 1
-	local curLine = ""
-	while curLine = verFile.readLine() ~= nil
+	local curLine = request.readLine()
+	while curLine ~= nil do
 		local tokens = {}
 		tokens = split(curLine, " ")
 		currentVersionsSize[i].name = tokens[1]
@@ -72,6 +73,7 @@ else
 		currentVersionsSize[i].major = tokens[3]
 		currentVersionsSize[i].minor = tokens[4]
 		i = i + 1
+		curLine = request.readLine()
 	end
 	size = i-1
 end
@@ -82,8 +84,8 @@ programs = {}
 
 local request = http.get("https://raw.githubusercontent.com/Zelacks/zelBees/master/lua/zelbee.lua")
 if request = 200 then --valid response
-	local curLine = ""
-	while curLine = request.readLine() ~= nil then	
+	local curLine = request.readLine()
+	while curLine ~= nil do	
 		local i = 1
 		local tablevals = {}
 		local success = 0
@@ -105,7 +107,8 @@ if request = 200 then --valid response
 		if success ~= 1 then
 			installProgram(tablevals[1], tablevals[5])
 		end
-		table.insert(programs, curLine);
+		table.insert(programs, curLine)
+		curLine = request.readLine()
 	end
 	
 	verFile = fs.open("./zelBeeVersion", "w")
