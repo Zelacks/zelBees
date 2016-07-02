@@ -20,7 +20,7 @@ function installProgram(name, downloadurl)
 					curLine = request.readLine()
 				end
 				saveFile.close()
-				write("installed!")
+				write("installed!\n")
 			end
 	end
 	
@@ -81,7 +81,7 @@ if verFile ~= nil then
 	verFile.close()
 end
 
-
+print("Installing programs")
 
 programs = {}
 
@@ -96,7 +96,7 @@ if request then
 			local success = 0
 			tablevals = split(curLine, " ")
 			
-			print(tablevals[1] .. ".......... ")
+			write(tablevals[1] .. ".......... ")
 			
 			for _, installedProg in ipairs(currentVersions) do
 				if tablevals[1] == installedProg.name then
@@ -104,7 +104,7 @@ if request then
 						installProgram(tablevals[1], tablevals[5])
 					end
 					success = 1
-					write("up to date.")
+					write("up to date.\n")
 				end
 			end
 			
