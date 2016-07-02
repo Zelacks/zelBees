@@ -71,7 +71,7 @@ if verFile ~= nil then
 	while curLine ~= nil do
 		local tokens = {}
 		tokens = split(curLine, " ")
-		currentVersions[i] = {tokens[1], tonumber(tokens[2], tonumber(tokens[3], tonumber(tokens[4]}
+		currentVersions[i] = {tokens[1], tonumber(tokens[2]), tonumber(tokens[3]), tonumber(tokens[4])}
 		i = i + 1
 		curLine = verFile.readLine()
 	end
