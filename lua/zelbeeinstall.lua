@@ -12,8 +12,8 @@ function installProgram(name, downloadurl)
 	local saveFile = fs.open("./" .. name, "w")
 	local request = http.get(downloadurl)
 	if request = 200 then
-		local curLine = requst.readLine()
-		while curLine ~= nil
+		local curLine = ""
+		while curLine = requst.readLine() ~= nil
 			saveFile.writeLine(curLine)
 		end
 		saveFile.close()
@@ -23,13 +23,13 @@ function installProgram(name, downloadurl)
 end
 
 function compareVersion(patch, major, minor, ipatch, imajor, iminor)
-	if patch > ipatch
+	if patch > ipatch then
 		return true
 	else
-		if major > ipatch
+		if major > ipatch then
 			return true
 		else
-			if minor > iminor
+			if minor > iminor then
 				return true
 			end
 		end
@@ -60,12 +60,11 @@ end
 local verFile = fs.open("./zelBeeVersion", "r")
 local currentVersions = {}
 local currentVersionsSize = 0
-if verFile == nil
-	fs.open("./zelBeeVersion", "w")
+if verFile == nil then
 else
 	local i = 1
-	local curLine = verFile.readLine()
-	while curLine ~= nil
+	local curLine = ""
+	while curLine = verFile.readLine() ~= nil
 		local tokens = {}
 		tokens = split(curLine, " ")
 		currentVersionsSize[i].name = tokens[1]
@@ -77,13 +76,14 @@ else
 	size = i-1
 end
 
+verFile.close()
+
 programs = {}
-programs.name = ""
-programs.version = ""
+
 local request = http.get("https://raw.githubusercontent.com/Zelacks/zelBees/master/lua/zelbee.lua")
 if request = 200 then --valid response
-	local curLine = request.readLine()
-	if curLine ~= nil	
+	local curLine = ""
+	while curLine = request.readLine() ~= nil then	
 		local i = 1
 		local tablevals = {}
 		local success = 0
@@ -92,8 +92,8 @@ if request = 200 then --valid response
 		print(tablevals[1] .. ".......... ")
 		
 		for _, installedProg in ipairs(currentVersions) do
-			if tablevals[1] == installedProg.name
-				if compareVersion(tablevals[2], tablevals[3], tablevals[4], installedProg.patch, installedProg.major, installedProg.minor) == true
+			if tablevals[1] == installedProg.name then
+				if compareVersion(tablevals[2], tablevals[3], tablevals[4], installedProg.patch, installedProg.major, installedProg.minor) == true then
 					installProgram(tablevals[1], tablevals[5])
 				end
 				success = 1
@@ -102,8 +102,15 @@ if request = 200 then --valid response
 		end
 		
 		--Program not installed, install it
-		if success ~= 1
+		if success ~= 1 then
 			installProgram(tablevals[1], tablevals[5])
 		end
+		table.insert(programs, curLine);
 	end
+	
+	verFile = fs.open("./zelBeeVersion", "w")
+	for _, line in ipairs(programs) do
+		verFile.writeLine()
+	end
+	verFile.close()
 end
