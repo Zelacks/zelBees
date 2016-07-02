@@ -83,7 +83,7 @@ verFile.close()
 programs = {}
 
 local request = http.get("https://raw.githubusercontent.com/Zelacks/zelBees/master/lua/zelbee.lua")
-if request = 200 then --valid response
+if request == 200 then --valid response
 	local curLine = request.readLine()
 	while curLine ~= nil do	
 		local i = 1
