@@ -11,14 +11,17 @@ end
 function installProgram(name, downloadurl)
 	local saveFile = fs.open("./" .. name, "w")
 	local request = http.get(downloadurl)
-	if request == 200 then
-		local curLine = request.readLine()
-		while curLine ~= nil do
-			saveFile.writeLine(curLine)
-			curLine = request.readLine()
-		end
-		saveFile.close()
-		write("installed!")
+		if request then 
+			local response = request.getResponseCode()
+			if response == 200 then --valid response
+				local curLine = request.readLine()
+				while curLine ~= nil do
+					saveFile.writeLine(curLine)
+					curLine = request.readLine()
+				end
+				saveFile.close()
+				write("installed!")
+			end
 	end
 	
 end
@@ -83,40 +86,42 @@ end
 programs = {}
 
 local request = http.get("https://raw.githubusercontent.com/Zelacks/zelBees/master/lua/version.lua")
-if request == 200 then --valid response
-	local curLine = request.readLine()
-	while curLine ~= nil do	
-		local i = 1
-		local tablevals = {}
-		local success = 0
-		tablevals = split(curLine, " ")
-		
-		print(tablevals[1] .. ".......... ")
-		
-		for _, installedProg in ipairs(currentVersions) do
-			if tablevals[1] == installedProg.name then
-				if compareVersion(tablevals[2], tablevals[3], tablevals[4], installedProg.patch, installedProg.major, installedProg.minor) == true then
-					installProgram(tablevals[1], tablevals[5])
+if request then 
+	local response = request.getResponseCode()
+	if response == 200 then --valid response
+		local curLine = request.readLine()
+		while curLine ~= nil do	
+			local i = 1
+			local tablevals = {}
+			local success = 0
+			tablevals = split(curLine, " ")
+			
+			print(tablevals[1] .. ".......... ")
+			
+			for _, installedProg in ipairs(currentVersions) do
+				if tablevals[1] == installedProg.name then
+					if compareVersion(tablevals[2], tablevals[3], tablevals[4], installedProg.patch, installedProg.major, installedProg.minor) == true then
+						installProgram(tablevals[1], tablevals[5])
+					end
+					success = 1
+					write("up to date.")
 				end
-				success = 1
-				write("up to date.")
 			end
+			
+			--Program not installed, install it
+			if success ~= 1 then
+				installProgram(tablevals[1], tablevals[5])
+			end
+			table.insert(programs, curLine)
+			curLine = request.readLine()
 		end
 		
-		--Program not installed, install it
-		if success ~= 1 then
-			installProgram(tablevals[1], tablevals[5])
+		verFile = fs.open("./zelBeeVersion", "w")
+		for _, line in ipairs(programs) do
+			verFile.writeLine()
 		end
-		table.insert(programs, curLine)
-		curLine = request.readLine()
+		verFile.close()
+	else
+		print("couldnt download version file")
 	end
-	
-	verFile = fs.open("./zelBeeVersion", "w")
-	for _, line in ipairs(programs) do
-		verFile.writeLine()
-	end
-	verFile.close()
-else
-	print("couldnt download version file")
-
 end
